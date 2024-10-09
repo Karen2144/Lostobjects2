@@ -1,4 +1,9 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import { MensajesService } from '../../../service/mensajes/mensajes.service';
 import { FormsModule } from '@angular/forms';
 import { UsuariosService } from '../../../service/users/usuarios.service';
@@ -15,7 +20,6 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
   imports: [
     FormsModule,
     RouterLink,
-    CommonModule,
     HeaderComponent,
     CommonModule,
     PickerComponent,
@@ -33,6 +37,7 @@ export class MensajesComponent implements OnInit {
 
   chats: any[] = [];
   messages: any[] = [];
+  imagePreview: string | null = null; // Para la previsualización de la imagen
   selectedChat: any;
   newMessage: string = '';
 
@@ -40,6 +45,7 @@ export class MensajesComponent implements OnInit {
 
   showEmojiPicker: boolean = false;
   set: string = 'twitter'; // Puedes cambiar el set de emojis si lo deseas
+  selectedFileName: string = '';
 
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
@@ -62,26 +68,24 @@ export class MensajesComponent implements OnInit {
   onBlur() {
     console.log('onblur');
   }
-  
+
   //
 
   constructor(
     private chatService: MensajesService,
     private UsuariosService: UsuariosService,
     private router: Router,
-    private cookies: CookieService,
-   
+    private cookies: CookieService
   ) {}
   ngOnInit(): void {
     this.getChats();
-
 
     const loggedInUser = this.cookies.get('loggedInUser');
     if (loggedInUser) {
       const user = JSON.parse(loggedInUser);
       this.idUser = user.id;
       this.foto = 'http://localhost:8000/' + user.imagen_perfil;
-      
+
       // Llamar a otros métodos como `publications` si es necesario
     } else {
       this.router.navigate(['/login']);
@@ -98,6 +102,28 @@ export class MensajesComponent implements OnInit {
   selectChat(chat: any): void {
     this.selectedChat = chat;
     this.getMessages(chat.id);
+    console.log(this.selectedChat);
+    this.imageFile = null;
+    this.imagePreview = null;
+    this.selectedFileName = '';
+  }
+
+  // Detectar si se presiona la tecla Esc
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscapeKey(event: KeyboardEvent): void {
+    this.clearSelectedChat();
+  }
+
+  // Detectar si se presiona la tecla Esc
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterKey(event: KeyboardEvent): void {
+    this.sendMessage();
+  }
+
+  // Método para limpiar el chat seleccionado
+  clearSelectedChat(): void {
+    this.selectedChat = null;
+    console.log('Chat deseleccionado');
   }
 
   getMessages(chatId: number): void {
@@ -106,32 +132,38 @@ export class MensajesComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.imageFile = file;
+      this.selectedFileName = file.name; // Almacenar el nombre del archivo
 
-onFileSelected(event: any): void {
-  const file: File = event.target.files[0];
-  if (file) {
-    this.imageFile = file;
-  }
-}
-
-sendMessage(): void {
-  if (this.newMessage.trim() || this.imageFile) {
-    const formData = new FormData();
-    formData.append('chat', this.selectedChat.id.toString());
-    formData.append('content', this.newMessage);
-    formData.append('sender', this.idUser.toString());
-    if (this.imageFile) {
-      formData.append('image', this.imageFile);
+      // Crear una previsualización de la imagen
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
-
-    this.chatService.sendMessage(formData).subscribe((message) => {
-      this.messages.push(message);
-      this.newMessage = '';
-      this.imageFile = null;
-    });
   }
-}
 
+  sendMessage(): void {
+    if (this.newMessage.trim() || this.imageFile) {
+      const formData = new FormData();
+      formData.append('chat', this.selectedChat.id.toString());
+      formData.append('content', this.newMessage);
+      formData.append('sender', this.idUser.toString());
+      if (this.imageFile) {
+        formData.append('image', this.imageFile);
+      }
+
+      this.chatService.sendMessage(formData).subscribe((message) => {
+        this.messages.push(message);
+        this.newMessage = '';
+        this.imageFile = null;
+      });
+    }
+  }
 
   ShowMenu() {
     this.toggleMenu = !this.toggleMenu;

@@ -1,38 +1,72 @@
 <app-header></app-header>
 
 <div class="chat-container">
+  <!-- Sidebar -->
   <div class="sidebar">
     <input type="text" class="search-bar" placeholder="Buscar..." />
     <ul class="chat-list">
       <li
-      *ngFor="let chat of chats"
-      (click)="selectChat(chat)"
-      class="chat-item"
-    >
-      <div class="chat-participants">
-        <ng-container *ngFor="let participant of chat.participants">
-          <img
-            [src]="participant.imagen_perfil"
-            alt="{{ participant.username }} profile"
-            class="profile-pic"
-          />
-          <span class="username">{{ participant.username }}</span>
-        </ng-container>
-      </div>
-    </li>
-    
+        *ngFor="let chat of chats"
+        (click)="selectChat(chat)"
+        class="chat-item"
+      >
+        <div class="chat-participants">
+          <ng-container *ngFor="let participant of chat.participants">
+            <img
+              [src]="participant.imagen_perfil"
+              alt="{{ participant.username }} profile"
+              class="profile-pic"
+            />
+            <span class="username">{{ participant.username }}</span>
+          </ng-container>
+        </div>
+      </li>
     </ul>
   </div>
+
+  <!-- Chat Content -->
+  @if (selectedChat) {
   <div class="chat-content">
+    <div class="chat-header">
+      <div class="header-info">
+        @if (selectedChat.participants[0].imagen_perfil) {
+
+        <img
+          [src]="selectedChat.participants[0].imagen_perfil"
+          alt="{{ selectedChat.participants[0].username }} profile"
+          class="header-profile-pic"
+        />
+        }
+        <span class="header-username">{{
+          selectedChat.participants[0].username
+        }}</span>
+      </div>
+      <div class="header-actions"></div>
+    </div>
+
     <div class="messages">
       <div *ngFor="let message of messages" class="message">
-        <strong>{{ message.usuario_username }}</strong>: {{ message.content }}
+        <strong>{{ message.usuario_username }}</strong
+        >: {{ message.content }}
         <div *ngIf="message.image">
-          <img [src]="'http://127.0.0.1:8000' + message.image" alt="Image" class="message-image" />
+          <img
+            [src]="'http://127.0.0.1:8000' + message.image"
+            alt="Image"
+            class="message-image"
+          />
         </div>
       </div>
-      
     </div>
+
+    <span *ngIf="selectedFileName" class="file-name">{{
+      selectedFileName
+    }}</span>
+
+    <!-- Image preview if a file is selected -->
+    <div *ngIf="imagePreview" class="image-preview">
+      <img [src]="imagePreview" alt="Preview" class="preview-image" />
+    </div>
+    <!-- Message Input Section -->
     <div class="message-input">
       <input
         (blur)="onBlur()"
@@ -42,6 +76,7 @@
         placeholder="Escribe un mensaje..."
       />
 
+      <!-- Emoji Picker -->
       <emoji-mart
         class="emoji-mart"
         [set]="'apple'"
@@ -49,12 +84,27 @@
         (emojiSelect)="addEmoji($event)"
         title="Pick your emoji…"
       ></emoji-mart>
-      <!-- Toggle Emoji Picker Button -->
-      <button (click)="toggleEmojiPicker()">😀</button>
-      <input type="file" (change)="onFileSelected($event)" />
+      <button (click)="toggleEmojiPicker()" class="emoji-button">😀</button>
 
-      <!-- Send Message Button -->
+      <!-- File Upload -->
+      <div class="file-upload">
+        <button type="button" (click)="fileInput.click()" class="file-button">
+          Seleccionar archivo
+        </button>
+
+        <input
+          type="file"
+          #fileInput
+          (change)="onFileSelected($event)"
+          style="display: none"
+        />
+      </div>
+
+      <!-- Send Message -->
       <button class="send-button" (click)="sendMessage()">Enviar</button>
     </div>
   </div>
+  }@else {
+  <div class="NoChatSeleted">Selecciona un chat</div>
+  }
 </div>
