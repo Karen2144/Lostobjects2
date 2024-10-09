@@ -1,0 +1,60 @@
+<app-header></app-header>
+
+<div class="chat-container">
+  <div class="sidebar">
+    <input type="text" class="search-bar" placeholder="Buscar..." />
+    <ul class="chat-list">
+      <li
+      *ngFor="let chat of chats"
+      (click)="selectChat(chat)"
+      class="chat-item"
+    >
+      <div class="chat-participants">
+        <ng-container *ngFor="let participant of chat.participants">
+          <img
+            [src]="participant.imagen_perfil"
+            alt="{{ participant.username }} profile"
+            class="profile-pic"
+          />
+          <span class="username">{{ participant.username }}</span>
+        </ng-container>
+      </div>
+    </li>
+    
+    </ul>
+  </div>
+  <div class="chat-content">
+    <div class="messages">
+      <div *ngFor="let message of messages" class="message">
+        <strong>{{ message.usuario_username }}</strong>: {{ message.content }}
+        <div *ngIf="message.image">
+          <img [src]="'http://127.0.0.1:8000' + message.image" alt="Image" class="message-image" />
+        </div>
+      </div>
+      
+    </div>
+    <div class="message-input">
+      <input
+        (blur)="onBlur()"
+        (focus)="onFocus()"
+        [(ngModel)]="newMessage"
+        class="message-field"
+        placeholder="Escribe un mensaje..."
+      />
+
+      <emoji-mart
+        class="emoji-mart"
+        [set]="'apple'"
+        *ngIf="showEmojiPicker"
+        (emojiSelect)="addEmoji($event)"
+        title="Pick your emoji…"
+      ></emoji-mart>
+      <!-- Toggle Emoji Picker Button -->
+      <button (click)="toggleEmojiPicker()">😀</button>
+      <input type="file" (change)="onFileSelected($event)" />
+
+      <!-- Send Message Button -->
+      <button class="send-button" (click)="sendMessage()">Enviar</button>
+    </div>
+  </div>
+</div>

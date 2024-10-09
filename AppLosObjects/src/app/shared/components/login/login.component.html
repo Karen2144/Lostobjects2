@@ -1,0 +1,48 @@
+<div class="container">
+  <form action="">
+    <div class="form-login">
+      <div class="img">
+        <img src="brands.png" alt="" />
+      </div>
+
+      <h1>Inicio Sesión</h1>
+
+      <div class="input-box">
+        <i class="bx bxs-user"></i>
+        <input
+          style="background-color: white;"
+          class="controls"
+          type="text"
+          name="username"
+          placeholder="Usuario"
+          [(ngModel)]="username"
+        />
+      </div>
+      <div class="input-box">
+        <i class="bx bxs-lock-alt"></i>
+        <input
+          style="background-color: white;"
+          class="controls"
+          type="password"
+          placeholder="contraseña"
+          name="password"
+          [(ngModel)]="password"
+        />
+      </div>
+      <!-- <div class="remember-forgot">
+        <a>Olvidaste tu contraseña?</a>
+      </div> -->
+      <div class="boton">
+        <!-- <a routerLink="principal"
+          ></a> -->
+          <button type="submit" class="btn" (click)="login()">
+            Entrar
+          </button>
+      </div>
+      <div class="register-link">
+        <p>No tienes una cuenta?</p>
+        <a routerLink="/register" style="color: white;">Registrarse</a>
+      </div>
+    </div>
+  </form>
+</div>

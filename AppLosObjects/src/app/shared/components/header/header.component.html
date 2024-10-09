@@ -1,0 +1,54 @@
+<header class="navbar">
+  <div class="brand">
+    <div class="brand-logo">
+      <img src="/brands.png" alt="Logo" />
+    </div>
+  </div>
+
+  <div class="container-search">
+    <input
+      type="search"
+      placeholder="Barra de búsqueda"
+      class="input__search"
+      [(ngModel)]="nombre_busqueda"
+    />
+  </div>
+
+  <div class="container-right">
+    <button class="buttom__open-items">
+      <i
+        class="fa main-menu"
+        [class.fa-bars]="!toggleMenu"
+        [class.fa-times]="toggleMenu"
+        (click)="ShowMenu()"
+      >
+      </i>
+    </button>
+    <div class="container__avatar-user">
+      <div class="profile-icon-container">
+        <img [src]="foto" class="profile-icon" alt="Perfil" />
+      </div>
+    </div>
+
+    <div class="container-items__icons" [class]="{ show: toggleMenu == true }">
+      <ul>
+        <li routerLink="/home"><i class="fas fa-home"></i> Inicio</li>
+        <li routerLink="/messages">
+          <i class="fas fa-envelope"></i> Mensajes directos
+        </li>
+        <li (click)="ShowModal()">
+          <i class="fas fa-plus-circle"></i>
+          {{
+            IsModalOpen == true
+              ? "Cerrar Crear Publicaciones"
+              : "Crear Publicaciones"
+          }}
+        </li>
+        <li routerLink="/profile"><i class="fas fa-user"></i> Perfil</li>
+        <li (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>

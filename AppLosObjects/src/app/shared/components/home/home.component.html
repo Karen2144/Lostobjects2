@@ -1,0 +1,74 @@
+<app-header></app-header>
+
+<main>
+  <div class="container-publications">
+    @for (items of publications; track items.id) {
+    <div class="box">
+      <div class="box-info">
+        <p>
+          <b>{{ items.usuario_username }} </b>
+          <small> {{ items.fecha_publicacion }} </small>
+        </p>
+      </div>
+
+      <h3>{{ items.descripcion }}</h3>
+
+      <div class="container-img">
+        <img [src]="items.imagen" alt="Publicación" class="img-fluid rounded" />
+      </div>
+
+      <div class="container-social-icons">
+        <nav class="nav-social">
+          <ul class="menu-social">
+            <li class="social-item">
+              <button class="menu-buttons__contents">
+                <i class="bx bx-like social-icon"></i>
+                Me gusta {{ items.me_gusta }}
+              </button>
+            </li>
+            <li class="social-item">
+              <button class="menu-buttons__contents">
+                <i class="bx bx-chat social-icon"></i>
+                Comentarios {{ items.comentarios }}
+              </button>
+            </li>
+            <li class="social-item">
+              <button class="menu-buttons__contents">
+                <i class="bx bx-share-alt social-icon"></i>
+                Compartir
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="container-chats"></div>
+    </div>
+    } @empty {
+    <p>No se encuentra nada aquí</p>
+    }
+  </div>
+</main>
+
+@if (IsModalOpen != false) {
+
+  <aside>
+    <div class="container">
+      <h1>Crea Tu publicación</h1>
+  
+      <form action="">
+        <label for="">Descripción</label>
+  
+        <input type="text" placeholder="Descripción" name="descripcion" [(ngModel)]="descripcion" />
+  
+        <label for="">Imagen</label>
+        <input type="file"  name="imagen" id="" accept="image/*" (change)="onFiles($event)" />
+  
+        <div class="container-button">
+          <button class="submit" (click)="postData()" value="Enviar">Enviar</button>
+          <button class="cancel"(click)="ShowModal()">Cancelar</button> 
+        </div>
+      </form>
+    </div>
+  </aside>
+}

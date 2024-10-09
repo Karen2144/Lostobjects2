@@ -1,0 +1,262 @@
+/*css de los iconos*/
+
+/*css del icono de perfil*/
+.profile-icon {
+  width: 65px; /* Tamaño del ícono de perfil */
+  height: 65px; /* Mismo tamaño para mantener la proporción */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid rgba(0, 0, 0, 0.1); /* Borde ligero */
+  object-fit: cover; /* Asegura que la imagen se ajuste sin distorsionarse */
+  display: block; /* Elimina el espacio debajo de la imagen (si es necesario) */
+  background-color: #f0f0f0; /* Fondo ligero para cuando la imagen no se carga */
+}
+
+/* Estilo para un contenedor opcional */
+.profile-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 65px; /* Tamaño del contenedor */
+  height: 65px; /* Mismo tamaño que el ícono */
+}
+
+/*css de el show menu*/
+.container-items__icons {
+  position: absolute;
+  top: 50px; /* Ajusta según tu diseño */
+  right: 0;
+  width: 250px;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Fondo blanco semi-transparente */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Borde ligeramente visible */
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.container-items__icons.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.container-items__icons ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+}
+
+.container-items__icons ul li {
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.7); /* Texto gris oscuro semi-transparente */
+  text-align: left;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container-items__icons ul li:hover {
+  background-color: rgba(
+    0,
+    123,
+    255,
+    0.2
+  ); /* Azul claro semi-transparente al pasar el ratón */
+  color: rgba(0, 123, 255, 0.8); /* Azul más fuerte en el texto */
+  border-radius: 5px;
+}
+
+.container-items__icons ul li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container-items__icons ul li.active {
+  font-weight: bold;
+  color: rgba(0, 123, 255, 1); /* Azul sólido para el elemento activo */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1a1a1a;
+  color: white;
+  margin: 0;
+  padding: 20px;
+}
+
+#toggle-notifications {
+  background-color: #282e3f;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.notifications-bar {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100%;
+  background-color: #2a2a2a;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.notifications-bar.active {
+  right: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  position: sticky;
+  top: 0;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+#settings-btn,
+#close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.notification {
+  display: flex;
+  padding: 10px 20px;
+  border-bottom: 1px solid #444;
+}
+
+.notification img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  margin-right: 15px;
+}
+
+.notification-content {
+  flex-grow: 1;
+}
+
+.notification-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.notification-time {
+  font-size: 0.8em;
+  color: #888;
+}
+
+header {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 5px 30px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.brand-logo > img {
+  width: 108px;
+  height: auto;
+}
+
+.input__search {
+  width: 100%;
+  max-width: 250px;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #007bff;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.input__search:focus {
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.container-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.buttom__open-items {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em;
+  color: #333;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.buttom__open-items:hover {
+  color: #007bff;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #007bff;
+}
+
+.container-items__icons {
+  z-index: 10;
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 300px;
+  height: 100vh;
+  background-color: white;
+  transform: translateX(-100%);
+  transition: transform ease 0.5s;
+}
+
+.container-items__icons.show {
+  transform: translateX(0);
+}
+
+.container-items__icons ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.container-items__icons li {
+  margin: 10px 0;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.container-items__icons li:hover {
+  color: #007bff;
+}

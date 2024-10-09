@@ -1,0 +1,93 @@
+<app-header></app-header>
+<div class="scroll-container">
+  <div class="container">
+    <div class="photos">
+      <div class="container-avatar">
+        <div class="profile-icon-container">
+          <img [src]="foto" class="profile-icon" alt="Perfil" />
+        </div>
+        <div>
+          <form action="">
+            <h4>Cambiar foto de perfil</h4>
+            <input type="file" (change)="onFilesChange($event)" />
+            <button type="submit" (click)="actualizar()">Confirmar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-info">
+      <h1>{{ first_name }} {{ last_name }}</h1>
+      <hr />
+
+      <div class="detalles">
+        <ul>
+          <h2>Lugar de residencia</h2>
+
+          <li>
+            <b>{{ ubicacion }}</b>
+          </li>
+          <hr />
+
+          <h2>Información de contacto</h2>
+
+          <li><b>Email: </b>{{ email }}</li>
+
+          <li><b>Telefono: </b>{{ telefono }}</li>
+          <hr />
+        </ul>
+      </div>
+
+      <section>
+        <h2>Publicaciones</h2>
+        <div class="container-publications">
+          @for (items of publications; track items.id) {
+          <div class="box">
+            <div class="box-info">
+              <p>
+                <b>{{ items.nombre_usuario }} </b>
+                <small> {{ items.fecha_publicacion }} </small>
+              </p>
+            </div>
+
+            <p>{{ items.descripcion }}</p>
+
+            <div class="container-img">
+              <img [src]="items.imagen" alt=" " />
+            </div>
+
+            <div class="container-social-icons">
+              <nav class="nav-social">
+                <ul class="menu-social">
+                  <li class="social-item">
+                    <button class="menu-buttons__contents">
+                      <i class="bx bx-like social-icon"></i>
+                      Me gusta {{ items.me_gusta }}
+                    </button>
+                  </li>
+                  <li class="social-item">
+                    <button class="menu-buttons__contents">
+                      <i class="bx bx-chat social-icon"></i>
+                      Comentarios {{ items.comentarios }}
+                    </button>
+                  </li>
+                  <li class="social-item">
+                    <button class="menu-buttons__contents">
+                      <i class="bx bx-share-alt social-icon"></i>
+                      Compartir
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+
+            <div class="container-chats"></div>
+          </div>
+          } @empty {
+          <p>No se encuentra nada aquí</p>
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

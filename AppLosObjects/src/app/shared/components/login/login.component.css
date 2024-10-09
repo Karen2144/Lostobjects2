@@ -1,0 +1,69 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 54%,
+    rgba(0, 78, 255, 1) 100%
+  );
+}
+
+.form-login {
+  height: 100%; /* Remove fixed height for better scaling */
+  width: 100%; /* Allow form to fill available width */
+  max-width: 400px; /* Set max width for larger screens */
+  background: #24303c;
+  padding: 30px;
+  margin: auto;
+  border-radius: 4px;
+  font-family: "calibri", sans-serif; /* Use a fallback font */
+  color: white;
+  box-shadow: 7px 13px 37px #000;
+  font-size: 16px; /* Base font size */
+}
+
+.img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.controls {
+  width: 100%;
+  background: #24303c;
+  padding: 10px;
+  border-radius: 3px;
+  margin-bottom: 16px;
+  border: 1px solid #1f53c5;
+  font-size: 1rem; /* Use rem for better scaling */
+}
+
+.boton button {
+  width: 100%;
+  background: #1f53c5;
+  border: none;
+  padding: 12px;
+  color: white;
+  margin: 16px 0;
+  font-size: 1rem;
+}
+
+.remember-forgot,
+.register-link {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.8rem; /* Smaller font size for links */
+}
+
+/* Media Queries for smaller screens */
+@media (max-width: 768px) {
+  .form-login {
+    padding: 20px;
+  }
+}

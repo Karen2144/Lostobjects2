@@ -1,0 +1,141 @@
+/* General container for the chat */
+.chat-container {
+  display: flex;
+  height: calc(100vh - 108.383px);
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar for chat selection */
+.sidebar {
+  width: 25%;
+  background-color: #343a40;
+  padding: 15px;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Search bar styling */
+.search-bar {
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
+
+/* Chat list styling */
+.chat-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chat-item {
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #495057;
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-item:hover {
+  background-color: #6c757d;
+}
+
+.chat-participants {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.username {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* Chat content section */
+.chat-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+/* Messages area */
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f1f1f1;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.message {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #e9ecef;
+  max-width: 80%;
+}
+.message-image{
+  width: 200px;
+}
+
+.message strong {
+  color: #007bff;
+}
+
+/* Input area for new messages */
+.message-input {
+  display: flex;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+}
+
+.message-field {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 20px;
+  margin-right: 10px;
+  outline: none;
+}
+
+.send-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+.emoji-mart {
+  position: absolute;
+
+  width: max-content;
+  bottom: 50px;
+  right: 10px;
+
+  overflow-y: scroll;
+  height: 426.5px;
+  padding: 0 6px 6px;
+}

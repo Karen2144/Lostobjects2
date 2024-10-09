@@ -1,0 +1,93 @@
+<div class="container">
+  <form action="sesion" (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
+    <section class="form-register">
+      <h3>Registro</h3>
+      <input
+        style="background-color: white;" 
+        class="controls"
+        type="text"
+        name="username"
+        id="username"
+        [(ngModel)]="newUser.username"
+        placeholder="Ingrese su usuario"
+        required
+      />
+      <input
+        style="background-color: white;"
+        class="controls"
+        type="text"
+        name="first_name"
+        id="first_name"
+        [(ngModel)]="newUser.first_name"
+        placeholder="Ingrese su nombre"
+        required
+      />
+      <input
+        style="background-color: white;"
+        class="controls"
+        type="text"
+        name="last_name"
+        id="last_name"
+        placeholder="Ingrese su apellido"
+        [(ngModel)]="newUser.last_name"
+        required
+      />
+      <input
+        style="background-color: white;"
+        class="controls"
+        type="number"
+        name="edad"
+        id="edad"
+        placeholder="Ingrese su edad"
+        min="1"
+        required
+        [(ngModel)]="newUser.edad"
+      />
+      <input
+        style="background-color: white;"
+        class="controls"
+        type="number"
+        name="telefono"
+        id="telefono"
+        placeholder="Ingrese su numero telefónico"
+        required
+        [(ngModel)]="newUser.telefono"
+      />
+      <input
+        style="background-color: white;"
+        class="controls"
+        type="text"
+        name="ubicacion"
+        id="ubicacion"
+        placeholder="Ingrese su ubicacion"
+        required
+        [(ngModel)]="newUser.ubicacion"
+      />
+      <input
+        style="background-color: white;"
+        class="controls"
+        type="email"
+        name="email"
+        id="email"
+        placeholder="Ingrese su correo"
+        required
+        [(ngModel)]="newUser.email"
+      />
+      <input
+        style="background-color: white;"
+        class="controls"
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Ingrese su Contraseña"
+        [(ngModel)]="newUser.password"
+        required
+      />
+      <!-- <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p> -->
+
+      <a><input class="botons" type="submit" value="Registrar" /></a>
+
+      <p><a routerLink="/login" style="color: white;">¿Ya tengo cuenta?</a></p>
+    </section>
+  </form>
+</div>
