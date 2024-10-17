@@ -15,7 +15,7 @@
     <!-- Lista de usuarios filtrados -->
     <ul class="filtered-users-list" *ngIf="filteredUsers.length > 0">
       <li
-        (click)="selectChat(user)"
+        (click)="selectUser(user)"
         *ngFor="let user of filteredUsers"
         class="filtered-user-item"
       >
@@ -33,11 +33,20 @@
       >
         <div class="chat-participants">
           <ng-container *ngFor="let participant of chat.participants">
+            @if(participant.imagen_perfil) {
             <img
               [src]="participant.imagen_perfil"
               alt="{{ participant.username }} profile"
               class="profile-pic"
             />
+            } @else {
+            <img
+              src="/default-avatar-300x300-1.jpg"
+              alt=""
+              class="profile-pic"
+            />
+            }
+
             <span class="username">{{ participant.username }}</span>
           </ng-container>
         </div>
@@ -56,6 +65,12 @@
           [src]="selectedChat.participants[0].imagen_perfil"
           alt="{{ selectedChat.participants[0].username }} profile"
           class="header-profile-pic"
+        />
+        }@else {
+        <img
+          src="/default-avatar-300x300-1.jpg"
+          alt=""
+          class="user-profile-pic"
         />
         }
         <span class="header-username">{{

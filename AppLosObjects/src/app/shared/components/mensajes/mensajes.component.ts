@@ -106,6 +106,20 @@ export class MensajesComponent implements OnInit {
     });
   }
 
+  selectUser(user: any): void {
+    const participants = [this.idUser, user.id];
+
+    // Llamar al backend para obtener o crear un chat
+    this.chatService.getOrCreateChat(participants).subscribe((chat) => {
+      // Agregar el chat a la lista si es nuevo
+      if (!this.chats.find((c) => c.id === chat.id)) {
+        this.chats.push(chat);
+      }
+      // Seleccionar el chat y cargar sus mensajes
+      this.selectChat(chat);
+    });
+  }
+
   selectChat(chat: any): void {
     this.selectedChat = chat;
     this.getMessages(chat.id);

@@ -43,6 +43,15 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Imagen de perfil del usuario */
+.user-profile-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
 /* Nombre del usuario */
 .user-username {
   font-size: 16px;
