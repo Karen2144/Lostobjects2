@@ -22,5 +22,10 @@ export class MensajesService {
   sendMessage(formData: FormData): Observable<any> {
     return this.http.post(`${this.ApiUrl}/messages/`, formData);
   }
-  
+
+  getOrCreateChat(participants: number[]): Observable<any> {
+    return this.http.post(`${this.ApiUrl}/chats/get_or_create_chat/`, {
+      participants,
+    });
+  }
 }
