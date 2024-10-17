@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UsuariosService {
-  constructor(private http: HttpClient, private cookies:CookieService) {}
+  constructor(private http: HttpClient, private cookies: CookieService) {}
 
   nombreUsuario = '';
 
@@ -27,19 +27,19 @@ export class UsuariosService {
   //   return this.http.post(`${this.APIUrl} ${endpoint}`, data);
   // }
 
-  addUser(user:any): Observable<any>{
-    return this.http.post("http://127.0.0.1:8000/register", user);
+  addUser(user: any): Observable<any> {
+    return this.http.post('http://127.0.0.1:8000/register', user);
   }
 
   login(user: any): Observable<any> {
-    return this.http.post("http://127.0.0.1:8000/login", user);
+    return this.http.post('http://127.0.0.1:8000/login', user);
   }
-  setToken(token:string){
-    this.cookies.set("token", token);
+  setToken(token: string) {
+    this.cookies.set('token', token);
   }
 
-  getToken(){
-    return this.cookies.get("token");
+  getToken() {
+    return this.cookies.get('token');
   }
   removeToken() {
     this.cookies.delete('token', '/');
@@ -51,12 +51,13 @@ export class UsuariosService {
 
     // Elimina otros datos de usuario almacenados en cookies
     this.cookies.delete('loggedInUser', '/');
-
   }
 
-  actualizar_foto(user : FormData): Observable<any>{
-    return this.http.patch("http://127.0.0.1:8000/foto", user);
+  actualizar_foto(user: FormData): Observable<any> {
+    return this.http.patch('http://127.0.0.1:8000/foto', user);
   }
 
-
+  DataAllUSer(): Observable<any> {
+    return this.http.get('http://127.0.0.1:8000/allUsers');
+  }
 }
