@@ -17,15 +17,21 @@ class publication(models.Model):
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
 
 
-
 class Chat(models.Model):
-    participants = models.ManyToManyField(CustomUser, related_name="chats")
+    participants = models.ManyToManyField(CustomUser, related_name="chats", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        participants = ", ".join([p.username for p in self.participants.all()])
+        return f"Chat ({participants})"
 
 
 class Message(models.Model):
     chat = models.ForeignKey(Chat, related_name="messages", on_delete=models.CASCADE)
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    content = models.TextField(blank=True)  # El texto del mensaje
-    image = models.ImageField(upload_to="messages/img/", null=True, blank=True)  # La imagen opcional
+    content = models.TextField(blank=True)
+    image = models.ImageField(upload_to="messages/img/", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Mensaje de {self.sender.username} en Chat {self.chat.id}"

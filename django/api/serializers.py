@@ -31,13 +31,19 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PubliSerializer(serializers.ModelSerializer):
-    usuario_username = serializers.CharField(source="nombre_usuario.username", read_only=True)
-    
-
+    usuario_username = serializers.CharField(
+        source="nombre_usuario.username", read_only=True
+    )
 
     class Meta:
         model = publication
-        fields = ["nombre_usuario","descripcion","imagen","fecha_publicacion","usuario_username"]
+        fields = [
+            "nombre_usuario",
+            "descripcion",
+            "imagen",
+            "fecha_publicacion",
+            "usuario_username",
+        ]
 
     def create(self, validated_data):
         return publication.objects.create(**validated_data)
@@ -45,9 +51,17 @@ class PubliSerializer(serializers.ModelSerializer):
 
 class MessageSerializer(serializers.ModelSerializer):
     usuario_username = serializers.CharField(source="sender.username", read_only=True)
+
     class Meta:
         model = Message
-        fields = ['chat', 'sender', 'content', 'image', 'created_at','usuario_username']
+        fields = [
+            "chat",
+            "sender",
+            "content",
+            "image",
+            "created_at",
+            "usuario_username",
+        ]
 
 
 class ChatSerializer(serializers.ModelSerializer):

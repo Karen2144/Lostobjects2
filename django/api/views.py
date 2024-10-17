@@ -147,24 +147,100 @@ class UsersViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
+class MessageViewSet(viewsets.ModelViewSet):
+    serializer_class = MessageSerializer
+
+    def get_queryset(self):
+        """
+        Filtra los mensajes para un chat específico pasado en los parámetros de la solicitud.
+        """
+        chat_id = self.request.query_params.get("chat")
+        if chat_id:
+            return Message.objects.filter(chat_id=chat_id).select_related(
+                "sender", "chat"
+            )
+        return Message.objects.none()
+
+    def perform_create(self, serializer):
+        """
+        Al crear un mensaje, asegura que pertenezca a un chat válido y el remitente sea el usuario autenticado.
+        """
+        serializer.save(sender=self.request.user)
+
+
 class ChatViewSet(viewsets.ModelViewSet):
-    queryset = Chat.objects.all()
     serializer_class = ChatSerializer
 
-    # Acción personalizada para obtener los mensajes de un chat específico
+    def get_queryset(self):
+        """
+        Filtra los chats donde el usuario autenticado sea uno de los participantes.
+        """
+        user = self.request.user
+        return Chat.objects.filter(participants=user).prefetch_related(
+            "messages", "participants"
+        )
+
+    def perform_create(self, serializer):
+        """
+        Al crear un chat, añade a los participantes correctamente.
+        """
+        chat = serializer.save()
+        chat.participants.add(self.request.user)  # Añadir al creador como participante
+
+    @action(detail=False, methods=["post"])
+    def get_or_create_chat(self, request):
+        """
+        Verifica si ya existe un chat con los participantes especificados.
+        Si no existe, crea uno nuevo.
+        """
+        participants = request.data.get("participants", [])
+
+        # Validar que haya al menos dos participantes
+        if len(participants) < 2:
+            return Response(
+                {"detail": "Se necesitan al menos dos participantes."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Asegurarse de que el usuario autenticado esté incluido
+        if request.user.id not in participants:
+            participants.append(request.user.id)
+
+        # Verificar si ya existe un chat con los mismos participantes
+        existing_chats = Chat.objects.filter(
+            participants__id__in=participants
+        ).distinct()
+
+        for chat in existing_chats:
+            # Verificar si contiene exactamente los mismos participantes
+            chat_participant_ids = set(chat.participants.values_list("id", flat=True))
+            if chat_participant_ids == set(participants):
+                serializer = ChatSerializer(chat)
+                return Response(serializer.data)
+
+        # Crear un nuevo chat si no existe
+        new_chat = Chat.objects.create()
+        new_chat.participants.set(participants)  # Asignar los participantes
+        serializer = ChatSerializer(new_chat)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
     @action(detail=True, methods=["get"])
     def messages(self, request, pk=None):
-        # Obtener el chat específico por el ID (pk)
+        """
+        Retorna todos los mensajes de un chat específico.
+        Asegura que solo los participantes puedan acceder.
+        """
         chat = self.get_object()
 
-        # Obtener todos los mensajes relacionados con ese chat
-        messages = chat.messages.all()
+        # Verificar si el usuario tiene acceso al chat
+        if request.user not in chat.participants.all():
+            return Response(
+                {"detail": "No tienes acceso a este chat."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
 
-        # Serializar los mensajes y retornarlos en la respuesta
+        messages = chat.messages.all().select_related(
+            "sender"
+        )  # Optimiza las consultas
         serializer = MessageSerializer(messages, many=True)
         return Response(serializer.data)
-
-
-class MessageViewSet(viewsets.ModelViewSet):
-    queryset = Message.objects.all()
-    serializer_class = MessageSerializer
