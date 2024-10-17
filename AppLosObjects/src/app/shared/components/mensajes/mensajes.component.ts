@@ -37,6 +37,7 @@ export class MensajesComponent implements OnInit {
 
   chats: any[] = [];
   messages: any[] = [];
+  AllUserList: any = [];
   imagePreview: string | null = null; // Para la previsualización de la imagen
   selectedChat: any;
   newMessage: string = '';
@@ -46,6 +47,8 @@ export class MensajesComponent implements OnInit {
   showEmojiPicker: boolean = false;
   set: string = 'twitter'; // Puedes cambiar el set de emojis si lo deseas
   selectedFileName: string = '';
+  filteredUsers: any = [];
+  searchTerm: any;
 
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
@@ -65,10 +68,6 @@ export class MensajesComponent implements OnInit {
     this.showEmojiPicker = false;
   }
 
-  onBlur() {
-    console.log('onblur');
-  }
-
   //
 
   constructor(
@@ -79,6 +78,7 @@ export class MensajesComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getChats();
+    this.allUser();
 
     const loggedInUser = this.cookies.get('loggedInUser');
     if (loggedInUser) {
@@ -90,6 +90,13 @@ export class MensajesComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
+  }
+
+  allUser() {
+    this.UsuariosService.DataAllUSer().subscribe((data) => {
+      this.AllUserList = data;
+      this.filterUsers();
+    });
   }
 
   getChats(): void {
@@ -104,6 +111,7 @@ export class MensajesComponent implements OnInit {
     this.getMessages(chat.id);
     console.log(this.selectedChat);
     this.imageFile = null;
+    this.filteredUsers = '';
     this.imagePreview = null;
     this.selectedFileName = '';
   }
@@ -167,6 +175,19 @@ export class MensajesComponent implements OnInit {
 
   ShowMenu() {
     this.toggleMenu = !this.toggleMenu;
+  }
+
+  // Método para filtrar usuarios
+  filterUsers(): void {
+    // Solo filtra si hay un término de búsqueda
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      this.filteredUsers = this.AllUserList.filter((user: any) =>
+        user.username.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      // Si no hay término de búsqueda, no mostrar ningún usuario filtrado
+      this.filteredUsers = [];
+    }
   }
 
   logout() {

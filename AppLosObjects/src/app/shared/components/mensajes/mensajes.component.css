@@ -26,6 +26,42 @@
   flex-direction: column;
   border-right: 2px solid #ddd;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Necesario para posicionar elementos hijos absolutamente */
+}
+
+/* Lista de usuarios filtrados */
+.filtered-users-list {
+  position: absolute; /* Superpuesta sobre el contenido */
+  top: 70px; /* Justo debajo del input de búsqueda */
+  left: 20px;
+  width: calc(100% - 40px); /* Ajuste al ancho de la sidebar con padding */
+  background-color: #495057;
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 200px;
+  z-index: 10; /* Asegura que quede sobre la lista de chats */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Nombre del usuario */
+.user-username {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Elementos de la lista de usuarios filtrados */
+.filtered-user-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.filtered-user-item:hover {
+  background-color: #6c757d;
 }
 
 .emoji-mart {
@@ -40,12 +76,13 @@
   padding: 0 6px 6px;
 }
 
+/* Barra de búsqueda */
 .search-bar {
   width: 100%;
   padding: 12px 16px;
   border-radius: 50px;
   border: none;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   background-color: #e9ecef;
   color: #343a40;
   font-size: 16px;

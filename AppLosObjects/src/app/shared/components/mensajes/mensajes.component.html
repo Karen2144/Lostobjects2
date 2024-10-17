@@ -3,7 +3,28 @@
 <div class="chat-container">
   <!-- Sidebar -->
   <div class="sidebar">
-    <input type="text" class="search-bar" placeholder="Buscar..." />
+    <!-- Barra de búsqueda -->
+    <input
+      type="text"
+      class="search-bar"
+      [(ngModel)]="searchTerm"
+      (input)="filterUsers()"
+      placeholder="Buscar usuarios..."
+    />
+
+    <!-- Lista de usuarios filtrados -->
+    <ul class="filtered-users-list" *ngIf="filteredUsers.length > 0">
+      <li
+        (click)="selectChat(user)"
+        *ngFor="let user of filteredUsers"
+        class="filtered-user-item"
+      >
+        <img [src]="user.imagen_perfil" alt="" class="user-profile-pic" />
+        <span class="user-username">{{ user.username }}</span>
+      </li>
+    </ul>
+
+    <!-- Lista de chats -->
     <ul class="chat-list">
       <li
         *ngFor="let chat of chats"
@@ -69,7 +90,6 @@
     <!-- Message Input Section -->
     <div class="message-input">
       <input
-        (blur)="onBlur()"
         (focus)="onFocus()"
         [(ngModel)]="newMessage"
         class="message-field"
